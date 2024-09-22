@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; 
+import './Modal.css'; // Ensure you have this CSS file
 
 const XModal = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,12 +26,14 @@ const XModal = () => {
             alert("Invalid email. Please check your email address.");
             return false;
         }
-        if (!phone || phone.length !== 10) {
+        // Validate phone number: must be a number and exactly 10 digits
+        if (!phone || !/^\d{10}$/.test(phone)) {
             alert("Invalid phone number. Please enter a 10-digit phone number.");
             return false;
         }
+        // Validate date of birth: must be a valid date and in the past
         const dobDate = new Date(dob);
-        if (dobDate > new Date()) {
+        if (isNaN(dobDate.getTime()) || dobDate > new Date()) {
             alert("Invalid date of birth. Please enter a past date.");
             return false;
         }
@@ -59,9 +61,7 @@ const XModal = () => {
     };
 
     return (
-      <>
-      <div><h1 style={{textAlign:"center"}}>User Details Model</h1></div>
-      <div className="app">
+        <div className="app">
             <button onClick={() => setIsOpen(true)}>Open Form</button>
             {isOpen && (
                 <div className="modal" onClick={handleOutsideClick}>
@@ -113,7 +113,6 @@ const XModal = () => {
                 </div>
             )}
         </div>
-        </>
     );
 };
 
